@@ -7,6 +7,7 @@ const transactionRoutes = require('./routes/transactionRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
+
 const PORT = 3001;
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/incomeExpenseTracker';
@@ -19,7 +20,7 @@ mongoose.connect(MONGO_URI, {
         console.log("MONGO CONNECTION OPEN!!")
     })
     .catch(err => {
-        console.log("MONGO CONNECTION ERROR.")
+        console.error("MONGO CONNECTION ERROR.", err)
     })
 
 app.use(express.urlencoded({ extended: true }));
