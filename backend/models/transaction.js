@@ -23,7 +23,7 @@ const TranscationSchema = new mongoose.Schema({
         type: Date,
         required: [true, "Date is required"]
     },
-    memo: {
+    note: {
         type: String,
         default: ""
     }
