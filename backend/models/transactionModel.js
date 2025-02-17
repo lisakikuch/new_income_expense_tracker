@@ -13,7 +13,8 @@ const TranscationSchema = new mongoose.Schema({
     },
     amount: {
         type: Number,
-        required: [true, "Amount is required"]
+        required: [true, "Amount is required"],
+        trim: true
     },
     category: {
         type: String,
@@ -21,7 +22,7 @@ const TranscationSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: [true, "Date is required"]
+        required: [true, "Date is required"],
     },
     note: {
         type: String,

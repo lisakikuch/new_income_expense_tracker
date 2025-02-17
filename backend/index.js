@@ -8,11 +8,10 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-const PORT = 3001;
+const PORT = process.env.PORT
+const MONGO_URI = process.env.MONGO_URI;
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/incomeExpenseTracker';
-
-mongoose.connect(MONGO_URI, { 
+mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -27,13 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('Welcome to Expense/income Tracker!')
-})
-
 app.use('/transactions', transactionRoutes);
 app.use('/users', userRoutes);
 
+app.get('/', (req, res) => {
+    res.send('Welcome to Expense/income Tracker!')
+});
+
 app.listen(PORT, () => {
     console.log(`APP IS LISTENING TO PORT ${PORT}!`)
-})
+});
