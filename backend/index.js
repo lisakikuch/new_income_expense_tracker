@@ -3,24 +3,17 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const connectDB = require('./config/db');
 const transactionRoutes = require('./routes/transactionRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => {
-        console.log("MONGO CONNECTION OPEN!!")
-    })
-    .catch(err => {
-        console.error("MONGO CONNECTION ERROR.", err)
-    })
+connectDB(MONGO_URI);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
