@@ -5,8 +5,18 @@ const Transaction = require('../models/transactionModel');
 // Create a new transaction
 exports.createTransaction = async (req, res) => {
 
+    const { userID, type, amount, category, date, note } = req.body;
+
     try {
-        const { userID, type, amount, category, date, note } = req.body;
+
+        if (!userID || !type || !category || !date) {
+            return res.status(400).json({ message: "All fields need to be filled" })
+        }
+
+        if (amount <= 0 || typeof amount !== 'number') {
+            return res.status(400).json({ message: "Amount must be a numeric value more than 0" })
+        }
+
         const transaction = new Transaction({ userID, type, amount, category, date, note });
         await transaction.save();
 
@@ -17,18 +27,23 @@ exports.createTransaction = async (req, res) => {
     }
 };
 
-// Get all transactions
+// Get all transactions or transactions by type ("income" or "expense") if query params are provided
 exports.getTransactions = async (req, res) => {
-
     try {
-        const transactions = await Transaction.find();
+        const {type} = req.query;
+        let filter = {};
+
+        if (type) {
+            filter.type = type;
+        }
+
+        const transactions = await Transaction.find(filter).sort({createdAt: -1});
 
         res.status(200).json(transactions);
-
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(400).json({error: err.message});
     }
-};
+}
 
 // Update a transaction
 exports.updateTransaction = async (req, res) => {
