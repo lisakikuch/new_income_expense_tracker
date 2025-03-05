@@ -30,18 +30,18 @@ exports.createTransaction = async (req, res) => {
 // Get all transactions or transactions by type ("income" or "expense") if query params are provided
 exports.getTransactions = async (req, res) => {
     try {
-        const {type} = req.query;
+        const { type } = req.query;
         let filter = {};
 
         if (type) {
             filter.type = type;
         }
 
-        const transactions = await Transaction.find(filter).sort({createdAt: -1});
+        const transactions = await Transaction.find(filter).sort({ createdAt: -1 });
 
         res.status(200).json(transactions);
     } catch (err) {
-        res.status(400).json({error: err.message});
+        res.status(400).json({ error: err.message });
     }
 }
 

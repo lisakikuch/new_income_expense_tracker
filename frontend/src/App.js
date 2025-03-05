@@ -2,11 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./styles/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-// Import components
-import Navbar from "./components/Navbar"; 
-
-// Import pages
+import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Income from "./pages/Income";
 import Expenses from "./pages/Expenses";
