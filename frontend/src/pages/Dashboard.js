@@ -18,7 +18,7 @@ function Dashboard() {
         <div className="col-md-4">
           <Link to="/income" className="text-decoration-none">
             <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Income Overview</h3>
+              <h3 className="dashboard-card-title">Income Overview</h3>
               <p>See your total income sources.</p>
             </div>
           </Link>
@@ -26,7 +26,7 @@ function Dashboard() {
         <div className="col-md-4">
           <Link to="/expenses" className="text-decoration-none">
             <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Expenses Overview</h3>
+              <h3 className="dashboard-card-title">Expenses Overview</h3>
               <p>Track where your money is going.</p>
             </div>
           </Link>
