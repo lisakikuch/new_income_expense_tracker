@@ -29,19 +29,24 @@ exports.createTransaction = async (req, res) => {
 
 // Get all transactions or transactions by type ("income" or "expense") if query params are provided
 exports.getTransactions = async (req, res) => {
+    const { type, month } = req.query;
+
     try {
-        const {type} = req.query;
         let filter = {};
 
         if (type) {
             filter.type = type;
+        };
+        if (month) {
+            const startDate = new Date(`${month}-01`);
+            const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+            filter.date = { $gte: startDate, $lt: endDate };
         }
 
-        const transactions = await Transaction.find(filter).sort({createdAt: -1});
-
+        const transactions = await Transaction.find(filter).sort({ createdAt: -1 });
         res.status(200).json(transactions);
     } catch (err) {
-        res.status(400).json({error: err.message});
+        res.status(400).json({ error: err.message });
     }
 }
 
