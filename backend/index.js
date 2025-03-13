@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 
 const connectDB = require('./config/db');
 const transactionRoutes = require('./routes/transactionRoutes');
@@ -21,16 +22,22 @@ connectDB(MONGO_URI)
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => {
         console.error("MongoDB Connection Error:", err);
-        process.exit(1); 
+        process.exit(1);
     });
 
 app.use(cors({
-    origin: "http://localhost:3000", 
+    origin: "http://localhost:3000",
     credentials: true
 }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+    secret: process.env.SESSION_SECRET,  
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Use secure; true in production with HTTPS
+}))
 
 app.use('/transactions', transactionRoutes);
 app.use('/users', userRoutes);
