@@ -2,6 +2,10 @@ const Transaction = require("../models/transactionModel");
 
 exports.createTransaction = async (req, res) => {
     const { userID, type, amount, category, date, note } = req.body;
+    // const userID = req.session.user_id; Enable it when session is ready
+    if (!userID) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
         if (!userID || !type || !category || !date) {
@@ -31,11 +35,17 @@ exports.createTransaction = async (req, res) => {
 };
 
 exports.getTransactions = async (req, res) => {
-    const { type, month } = req.query;
-
+    const { userID, type, month } = req.query;
+    // const userID = req.session.user_id; Enable it when session is ready
+    // if (!userID) {
+    //     return res.status(401).json({ message: "Unauthorized" });
+    // }
+ 
     try {
         let filter = {};
-
+        if (userID) {
+            filter.userID = userID;
+        }
         if (type) {
             filter.type = type;
         };
@@ -44,6 +54,8 @@ exports.getTransactions = async (req, res) => {
             const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
             filter.date = { $gte: startDate, $lt: endDate };
         }
+
+        console.log(filter)
 
         const transactions = await Transaction.find(filter).sort({ createdAt: -1 });
         res.status(200).json(transactions);
