@@ -3,9 +3,9 @@ const Transaction = require("../models/transactionModel");
 exports.createTransaction = async (req, res) => {
     const { userID, type, amount, category, date, note } = req.body;
     // const userID = req.session.user_id; Enable it when session is ready
-    if (!userID) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
+    // if (!userID) {
+    //     return res.status(401).json({ message: "Unauthorized" });
+    // }
 
     try {
         if (!userID || !type || !category || !date) {
